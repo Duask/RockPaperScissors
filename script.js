@@ -6,10 +6,20 @@
 //The answer will be displayed to the user in an alert
 
 //1. Prompt the user to get their answer //2. Transform the user answer to something usable
+const choices = document.getElementsByClassName("choice");
+const chatbox = document.getElementById("chatbox");
+const userPoints = document.getElementById("userPoints");
+const cpuPoints = document.getElementById("cpuPoints");
+const result = document.querySelector(".score p");
 
-function getUserAns(){
-    return (prompt("Enter Rock, Paper or Scissors.")).toLowerCase();
+for (let i = 0; i < choices.length; i++) {
+    choices[i].addEventListener("click", playRound);
 }
+
+
+//function getUserAns(e){
+//    return e.srcElement.innerText.toLowerCase();
+//}
 
 //3. Create a function that randomly returns rock paper or scissors for the pc answer
 function getComputerChoice() {
@@ -24,57 +34,57 @@ function getComputerChoice() {
 }
 
 //Create a function that takes the answer of the user and the pc
-function playRound() {
-    userAns = getUserAns();
+function playRound(e) {
+    userAns = e.srcElement.innerText.toLowerCase();;
     cpuAns = getComputerChoice();
 
+
+
     if(userAns == cpuAns){
-        return "It's a Tie!"
+        chatbox.innerText = "It's a Tie!"
     }
     if(userAns == "rock" && cpuAns == "paper"){
-        return "You Lose! Paper beats Rock"
+        chatbox.innerText = "You Lose! Paper beats Rock"
+        cpuUp()
     }
     if(userAns == "rock" && cpuAns == "scissors"){
-        return "You Win! Rock beats Scissors"
+        chatbox.innerText = "You Win! Rock beats Scissors"
+        userUp()
     }
     if(userAns == "paper" && cpuAns == "scissors"){
-        return "You Lose! Scissors beat Paper"
+        chatbox.innerText = "You Lose! Scissors beat Paper"
+        cpuUp()
     }
     if(userAns == "paper" && cpuAns == "rock"){
-        return "You Win! Paper beats Rock"
+        chatbox.innerText = "You Win! Paper beats Rock"
+        userUp()
     }
     if(userAns == "scissors" && cpuAns == "paper"){
-        return "You Win! Scissors beat Paper"
+        chatbox.innerText = "You Win! Scissors beat Paper"
+        userUp()
     }
     if(userAns == "scissors" && cpuAns == "rock"){
-        return "You Lone! Rock beats Scissors"
+        chatbox.innerText = "You Lose! Rock beats Scissors"
+        cpuUp()
     }
-    
+    checkWinner()
 }
 
-//This function will return an appropriate answer to the inputs received
-function game() {
-    let userPts = 0;
-    let cpuPts = 0;
-    for(let m=1; m <= 5; m++){
-        let x = playRound();
-        alert(x);
-        if (x[4]== 'W' ) {
-            userPts++
-        } else if (x[4]== 'L' ) {
-            cpuPts++
-        } 
-    }
-    if (userPts > cpuPts) {
-        alert(`You: ${userPts}, CPU: ${cpuPts}
-        You Win This Match!`);
-    } else if (userPts < cpuPts) {
-        alert(`You: ${userPts}, CPU: ${cpuPts}
-        You Lose This Match!`);
-    } else  {
-        alert('You Tied!')
-    }
+function userUp() {
+    n = Number(userPoints.innerText);
+    userPoints.innerText = ++n
 }
 
-//The answer will be displayed to the user in an alert
-game()
+function cpuUp() {
+    n = Number(cpuPoints.innerText);
+    cpuPoints.innerText = ++n
+}
+
+function checkWinner() {
+    if (userPoints.textContent == 5){
+        result.textContent = "You win this match!";
+    } else if (cpuPoints.textContent == 5){
+        result.textContent = "You lost, the cpu has won this match!";
+    }
+
+}
